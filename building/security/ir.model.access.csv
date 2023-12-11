@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_building_building,building.building,model_building_building,base.group_user,1,1,1,1
+access_building_booking,building.booking,model_building_booking,base.group_user,1,1,1,1
+access_building_room,building.room,model_building_room,base.group_user,1,1,1,1
+access_building_booking_product_line,building.booking.product.line,model_building_booking_product_line,base.group_user,1,1,1,1
+
+
+
+

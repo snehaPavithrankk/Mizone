@@ -1,0 +1,165 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="building_booking">
+              <field name="name">building Booking</field>
+              <field name="model">building.booking</field>
+              <field name="arch" type="xml">
+            <tree>
+                   <field name="sequence_number"/>
+                   <field name="rent_start_date"/>
+                  <field name="customer"/>
+                  <field name="building_id"/>
+                  <field name="room_id"/>
+                  <field name="product_ids"/>
+<!--                <field name="rent"/>-->
+            </tree>
+          </field>
+        </record>
+        <record model="ir.ui.view" id="view_building_booking_form">
+            <field name="name">building.booking.form</field>
+            <field name="model">building.booking</field>
+            <field name="arch" type="xml">
+                <form string="Building Booking Form">
+                    <header>
+                        <button name="action_set_to_sold" string="Confirm" attrs="{'invisible': [('status', '=', 'sold')]}" class="oe_highlight" type="object"/>
+                        <field name="status" widget="statusbar" attrs="{'required': [('status', '!=', 'sold')]}"/>
+                        <button name="action_print_booking" string="Print" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="sequence-and-date" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div class="sequence-number" style="font-weight: bold;">
+                                <h1>
+                                    <field name="sequence_number"/>
+                                </h1>
+                            </div>
+                            <div class="booking-date" style="border-bottom: 1px solid #000; padding: 0 10px;">
+                                <field name="booking_date" string="Booking Date" attrs="{'readonly': True}" />
+                            </div>
+                        </div>
+                        <group>
+                            <group class="left-group">
+                                <field name="customer" string="Tenant" required="1" domain="[('partner_type', '=', 'tenant')]" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                <field name="phone_number" string="Phone Number" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                <label for="street_page_lead" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street1" id="street_page_lead" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                    <field name="country" placeholder="Country" class="o_address_country" options="{'no_open': True}" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                    <div class="o_row">
+                                        <field name="city" placeholder="City" class="o_address_city" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                        <field name="state" class="o_address_state" placeholder="State" options="{'no_open': True}" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                    </div>
+                                </div>
+                            </group>
+
+
+                            <div class="oe_form_group right-group">
+                              <group>
+                                <field name="rent_start_date"/>
+
+                                <field name="booking_type" required="1" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                                <field name="building_id" string="Building" options="{'no_create': true}" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                              </group>
+                              <group attrs="{'invisible': [('booking_type', '!=', 'room')]}">
+                                <field name="room_id" domain="[('building_id', '=', building_id)]" options="{'no_create': True}"
+                                  attrs="{'invisible': [('building_id', '=', False)], 'readonly': [('status', '=', 'sold')]}"/>
+                                <field name="room_s_field" string="Room Status" invisible="1" attrs="{'readonly': [('status', '=', 'sold')]}"/>
+                              </group>
+
+                              </div>
+
+
+
+
+
+<!--                            <group class="right-group">-->
+<!--&lt;!&ndash;                                    <group>&ndash;&gt;-->
+<!--                                <field name="rent_start_date" class="oe_inline" style="width:100%"/>-->
+
+<!--&lt;!&ndash;                                <label for="booking_type" string="Booking Type" class="oe_form_label" style="font-weight: bold;"/>&ndash;&gt;-->
+<!--                                <field name="booking_type" required="1" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('status', '=', 'sold')]}"/>-->
+<!--                                    <field name="building_id" string="Building" options="{'no_create': true}" attrs="{'readonly': [('status', '=', 'sold')]}"/>-->
+<!--&lt;!&ndash;                                    </group>&ndash;&gt;-->
+<!--                                <div>-->
+
+<!--                                   <group attrs="{'invisible': [('booking_type', '!=', 'room')]}">-->
+<!--&lt;!&ndash;                                        <field name="building_id" string="Building" options="{'no_create': true}" attrs="{'readonly': [('status', '=', 'sold')]}"/>&ndash;&gt;-->
+<!--                                        <field name="room_id" domain="[('building_id', '=', building_id)]" options="{'no_create': True}"-->
+<!--                                            attrs="{'invisible': [('building_id', '=', False)], 'readonly': [('status', '=', 'sold')]}"/>-->
+<!--                                        <field name="room_s_field" string="Room Status" invisible="1" attrs="{'readonly': [('status', '=', 'sold')]}"/>-->
+<!--                                    </group>-->
+<!--                                </div>-->
+<!--&lt;!&ndash;                                    <group string="Product Booking" attrs="{'invisible': [('booking_type', '!=', 'products')],'readonly': [('status', '=', 'sold')]}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <field name="building_id" string="Building" options="{'no_create': true}" attrs="{'readonly': [('status', '=', 'sold')]}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <field name="product_ids" string="Product" options="{'no_create': true}" domain="[('s_field','=','available')]" style="width: 220px" attrs="{'invisible': [('building_id', '=', False)],'readonly': [('status', '=', 'sold')]}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <field name="product_s_field" string="Product Status" invisible="1" attrs="{'readonly': [('status', '=', 'sold')]}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </group>&ndash;&gt;-->
+
+
+<!--                            </group>-->
+
+                        </group>
+<!--                        <group>-->
+<!--                            &lt;!&ndash; Rent field in the next row at the right corner &ndash;&gt;-->
+<!--                            <div style="display: flex; justify-content: flex-end; align-items: center;">-->
+<!--                                <div></div>-->
+<!--                                <div>-->
+<!--                                    <group>-->
+<!--                                        <field name="rent" readonly="1" style="width: auto; margin-left: 10px;"/>-->
+<!--                                    </group>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </group>-->
+
+                        <notebook>
+                            <page string="Products" name="notebook_page_products" >
+                                <field name="product_lines" widget="one2many_list" options="{'add_record': 'false'}" attrs="{'readonly': [('booking_type', '=', 'room')]}">
+                                    <tree editable="bottom">
+                                        <field name="product_ids"/>
+                                        <field name="label"/>
+                                        <field name="quantity"/>
+                                        <field name="price"/>
+                                        <field name="tax_ids" widget="many2many_tags"/>
+                                        <field name="subtotal"/>
+                                    </tree>
+                                </field>
+                                 <group>
+                                     <div>
+                                         <group>
+                                             <group> </group>
+                                             <group>
+                                                 <group></group>
+                                                 <group>
+                                                     <field name="untaxed_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                                     <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                                     </group>
+                                                 </group>
+                                         </group>
+                                    </div>
+                                 </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <!-- Chatter fields and buttons -->
+                        <field name="message_follower_ids" widget="mail_followers" group="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Building Booking Action -->
+        <record model="ir.actions.act_window" id="booking_action_window">
+            <field name="name">Booking</field>
+            <field name="res_model">building.booking</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Building Booking Menu Item -->
+        <menuitem name="Booking" id="booking_menu" parent="building.menu_1" action="booking_action_window"/>
+   </data>
+</odoo>

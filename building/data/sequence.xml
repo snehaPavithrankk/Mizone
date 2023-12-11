@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="sequence_building_booking" model="ir.sequence">
+            <field name="name">building.booking.sequence</field>
+            <field name="code">building.booking.sequence</field>
+            <field name="prefix">BB</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</odoo>

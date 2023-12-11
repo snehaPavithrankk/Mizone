@@ -1,0 +1,114 @@
+<odoo>
+    <data>
+<!--             record for    tree view  -->
+
+        <record id="view_building_room_tree" model="ir.ui.view">
+            <field name="name">building.room.tree</field>
+            <field name="model">building.room</field>
+            <field name="arch" type="xml">
+                <tree string="Building Room Tree">
+                    <field name="image" widget="image"/>
+                    <field name="room_number" />
+                    <field name="name" />
+                    <field name="floor" />
+                    <field name="capacity" />
+                    <field name="room_type" />
+                    <field name="building_id"/>
+                    <field name="product_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+<!--                   record for    form view-->
+
+        <record id="view_building_room_form" model="ir.ui.view">
+            <field name="name">building.room.form</field>
+            <field name="model">building.room</field>
+            <field name="arch" type="xml">
+                <form string="Building Room Form" >
+                    <header>
+                        <button name="action_available" type="object" string="available" class="oe_highlight"/>
+                        <button name="action_sold" type="object"  string="sold" class="oe_highlight"/>
+                        <field name="s_field" widget="statusbar" statusbar_visible="available,sold" attrs="{'readonly': [('s_field', '!=', 'available')]}"/>
+                      </header>
+                    <sheet>
+
+                        <group>
+                            <field name="image" widget="image" options="{'size': (100, 100)}" />
+                            <field name="room_number" />
+                            <field name="name" />
+                            <field name="floor" />
+                            <field name="capacity" />
+                            <field name="room_type" />
+                            <field name="facilities" widget="text" />
+                            <field name="building_id" />
+                            <field name="product_ids" options="{'no_create': True}" />
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!--                record for    search view-->
+
+        <record id="room_group_by" model="ir.ui.view">
+                <field name="name">building.room.search</field>
+                <field name="model">building.room</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="name" string="selected" filter_domain="['|','|','|', ('name', 'ilike', self),('capacity', 'ilike', self),('floor', 'ilike', self), ('room_type', 'ilike', self)]"/>
+                        <field name="floor" string="Floor"/>
+                        <field name="capacity" string="Capacity"/>
+                        <field name="room_type" string="Room Type" />
+                        <group expand="1" string="Available/sold">
+                            <filter string="Available/Sold" name="s_field" context="{'group_by': 's_field'}"/>
+                        </group>
+                    </search>
+                </field>
+        </record>
+
+<!--                 record for    kanban view-->
+
+        <record model="ir.ui.view" id="bld_room_kanban">
+             <field name="name">building.room.kanban</field>
+             <field name="model">building.room</field>
+             <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_stock_kanban" create="0" default_group_by="s_field">
+              <templates>
+                <t t-name="kanban-box">
+                  <div class="oe_kanban_global_click">
+                  <div class="oe_kanban_details d-flex flex-column">
+                    <div class="oe_kanban_image">
+                        <field name="image" widget="image" options="{'size': (100, 100)}" />
+                    </div>
+
+                    <div class="oe_kanban_details">
+                      <strong><field name="name"/></strong>
+                      <p>Building: <field name="building_id"/></p>
+                      <p>Room Number: <field name="room_number"/></p>
+                      <p>Floor: <field name="floor"/></p>
+                      <p>Capacity: <field name="capacity"/></p>
+                      <p>Room Type: <field name="room_type"/></p>
+                      <p>Facilities: <field name="facilities"/></p>
+                    </div>
+                  </div>
+                  </div>
+                </t>
+              </templates>
+            </kanban>
+          </field>
+        </record>
+
+         <!--action for the room menu-->
+
+        <record id="action_building_room" model="ir.actions.act_window">
+            <field name="name">Building Rooms</field>
+            <field name="res_model">building.room</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <menuitem id="menu_building_room" name="Rooms" parent="building.menu_1" action="action_building_room" />
+
+    </data>
+</odoo>

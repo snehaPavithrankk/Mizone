@@ -1,0 +1,73 @@
+<odoo>
+  <data>
+
+      <record model="ir.ui.view" id="Product_kanban_view">
+        <field name="name">Product Kanban Inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="default_group_by">s_field</attribute>
+            </xpath>
+        </field>
+      </record>
+
+      <record id="view_product_template_tree_inherit" model="ir.ui.view">
+            <field name="name">product.template.tree.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="s_field" string="Status" context="{'group_by':'s_field'}"/>
+                </xpath>
+            </field>
+      </record>
+    <!-- explicit list view definition -->
+
+    <record id="product_inh" model="ir.ui.view">
+      <field name="name">building.product</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view"/>
+      <field name="arch" type="xml">
+
+
+         <xpath expr="//form/header" position="before">
+                     <header>
+                       <button name="action_available" type="object" string="available" class="oe_highlight"/>
+                       <button name="action_sold" type="object"  string="sold" class="oe_highlight"/>
+                       <field name="s_field" widget="statusbar" statusbar_visible="available,sold"/>
+                     </header>
+         </xpath>
+
+         <xpath expr="//notebook" position="inside">
+            <page string="property information">
+              <h1>Basic Information</h1>
+                <group style="width:50%">
+                  <field name="deposits"/>
+                  <field name="rent"/>
+                </group>
+
+                <group style="width:50%">
+                  <h5>Status</h5>
+<!--                  <field name="is_yes" widget="boolean_checkbox" domain="[('is_yes', '=', True)]" string="Yes"/>-->
+<!--                  <field name="is_no" widget="boolean_checkbox" domain="[('is_no', '=', True)]" string="No"/>-->
+<!--                  <field name="is_in_construction" widget="boolean_checkbox" domain="[('is_in_construction', '=', True)]" string="In Construction"/>-->
+                </group>
+                <group style="max-width: 50%;height:100px">
+                    <h2>Facility and Services</h2>
+                    <field name="free_wifi"/>
+                    <field name="ac"/>
+                    <field name="furnitured"/>
+                </group>
+
+            </page>
+         </xpath>
+
+      </field>
+    </record>
+
+
+
+  </data>
+
+</odoo>

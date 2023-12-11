@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="action_building_inventory">
+      <field name="name">inventory window</field>
+      <field name="res_model">product.template</field>
+      <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <!-- actions -->
+
+    <menuitem name="Inventory" id="building.menu_3_list" parent="building.menu_1"
+              action="action_building_inventory"/>
+
+    </data>
+</odoo>

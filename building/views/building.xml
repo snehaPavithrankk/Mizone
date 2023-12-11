@@ -1,0 +1,145 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="building_list">
+      <field name="name">building list</field>
+      <field name="model">building.building</field>
+      <field name="arch" type="xml">
+        <tree>
+              <field name="image"/>
+              <field name="bl_name"/>
+              <field name="bld_code"/>
+              <field name="street1"/>
+              <field name="street2"/>
+              <field name="country"/>
+              <field name="city"/>
+              <field name="states"/>
+              <field name="zip"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="building_form" model="ir.ui.view">
+      <field name="name">Building form</field>
+      <field name="model">building.building</field>
+      <field name="priority" eval="8" />
+      <field name="arch" type="xml">
+        <form string="Details">
+          <sheet>
+            <h3 class="text-center" style="font-size:20px;text-align:center">Building Details</h3>
+              <field name="image" widget="image" class="oe_avatar"/>
+            <group style="max-width: 50%">
+<!--              <field name="image" widget="image" style="max-width: 100px; max-height: 100px; align-right:50px;"/>-->
+               <field name="bl_name" placeholder="Building Name"/>
+              <field name="bld_code" />
+                <label for="street_page_lead" string="Address"/>
+                <div class="o_address_format">
+                    <field name="street1" id="street_page_lead" placeholder="Street..."
+                           class="o_address_street"/>
+                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                    <field name="country" placeholder="Country" class="o_address_country"
+                           options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                    <div class="o_row">
+                        <field name="city" placeholder="City" class="o_address_city"/>
+                        <field name="states" class="o_address_zip" placeholder="State"
+                               options="{&quot;no_open&quot;: True}"/>
+                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                    </div>
+
+                </div>
+<!--              <label for="street1" string="Address"/>-->
+<!--              <div>-->
+<!--                <field name="street1" placeholder="Street..." />-->
+<!--                <field name="street2" placeholder="Street 2..."/>-->
+<!--                <field name="country" placeholder="Country" options='{"no_open": True, "no_create": True}'/>-->
+<!--                <div class="o_row">-->
+<!--                  <field name="city" placeholder="City" />-->
+<!--                  <field name="states" placeholder="States" />-->
+<!--                  <field name="zip" placeholder="ZIP" />-->
+<!--                </div>-->
+<!--              </div>-->
+            </group>
+
+
+<!--    <record model="ir.ui.view" id="building_form">-->
+<!--      <field name="name">building form</field>-->
+<!--      <field name="model">building.building</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <form>-->
+<!--          <sheet>-->
+<!--            <group>-->
+<!--              <field name="image" widget="image"/>-->
+<!--              <field name="bl_name"/>-->
+<!--              <field name="bld_code"/>-->
+<!--              <field name="street1"/>-->
+<!--              <field name="street2"/>-->
+<!--              <field name="country"/>-->
+<!--              <field name="city"/>-->
+<!--              <field name="state"/>-->
+<!--              <field name="zip"/>-->
+<!--            </group>-->
+              <notebook>
+                  <page string="Images">
+                      <group>
+                          <field name="add_image" string="Image"/>
+                      </group>
+                  </page>
+
+                  <page string="Documents">
+                  </page>
+                  <page string="Floor Plan">
+                  </page>
+                  <page string="Geo Location">
+                       <group>
+                            <field name="latitude" string="Latitude"/>
+                            <field name="longitude" string="Longitude"/>
+                       </group>
+                      <button string="Open Google Maps" type="object" class="oe_highlight" icon="fa-globe" name="open_google_maps"/>
+                  </page>
+                  <page name='internal_notes' string="Internal Notes">
+                            <field name="comment" placeholder="Internal note..."/>
+                  </page>
+                </notebook>
+          </sheet>
+
+        </form>
+      </field>
+    </record>
+
+
+
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="building.action_window">
+      <field name="name">building window</field>
+      <field name="res_model">building.building</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+      <record id="action_add_image" model="ir.actions.act_window">
+            <field name="name">Add Image</field>
+            <field name="res_model">building.building</field>
+            <field name="view_mode">form</field>
+            <field name="type">ir.actions.act_window</field>
+    <!-- You can specify additional attributes based on your use case. -->
+    </record>
+
+
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Mizone" id="building.menu_1"/>
+    <!-- menu categories -->
+
+    <!-- actions -->
+
+    <menuitem name="Building" id="building.menu_1_list" parent="building.menu_1"
+              action="building.action_window"/>
+
+
+  </data>
+</odoo>
